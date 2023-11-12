@@ -2,6 +2,7 @@ import { Console } from '@woowacourse/mission-utils';
 import InputView from './InputView.js';
 import OutputView from './OutputView.js';
 import Validation from './utils/Validation.js';
+import Menu from './constants/Menu.js';
 
 class App {
   async getDate() {
@@ -49,11 +50,27 @@ class App {
     }
   }
 
+  calculateOrderTotal(orders) {
+    const menuList = [...Menu.APPETIZER, ...Menu.MAIN, ...Menu.DESSERT, ...Menu.DRINK];
+
+    let total = 0;
+
+    orders.forEach(([menu, count]) => {
+      const { price } = menuList.find((el) => el.name === menu);
+      total += count * price;
+    });
+
+    return total;
+  }
+
   async run() {
     const date = await this.getDate();
     const orders = await this.getOrder();
 
     OutputView.printMenu(orders);
+
+    const total = this.calculateOrderTotal(orders);
+    OutputView.printOrderTotal(total);
   }
 }
 
