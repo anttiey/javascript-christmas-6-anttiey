@@ -100,6 +100,15 @@ class App {
     return Object.values(result).reduce((acc, discount) => (acc += discount));
   }
 
+  calculateDiscountTotal(result) {
+    return Object.values(result).reduce((acc, discount) => (acc += discount));
+  }
+
+  calculateFinalOrderTotal(total, result) {
+    const { free, ...otherResult } = result;
+    return total - Object.values(otherResult).reduce((acc, discount) => (acc += discount));
+  }
+
   async run() {
     const date = await this.getDate();
     const orders = await this.getOrder();
@@ -133,6 +142,10 @@ class App {
     OutputView.printAllDiscountDetails(result);
 
     const totalDiscount = this.calculateDiscountTotal(result);
+    OutputView.printDiscountTotal(totalDiscount);
+
+    const totalOrder = this.calculateFinalOrderTotal(total, result);
+    OutputView.printFinalOrderTotal(totalOrder);
   }
 }
 
