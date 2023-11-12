@@ -32,7 +32,7 @@ const OutputView = {
       Console.print('없음');
     }
 
-    this.printSingleDiscountDetails('증정 이벤트', result.free * 25000);
+    this.printSingleDiscountDetails('증정 이벤트', result.free);
     this.printSingleDiscountDetails('크리스마스 디데이 할인', result.christmas);
     this.printSingleDiscountDetails('평일 할인', result.weekday);
     this.printSingleDiscountDetails('주말 할인', result.holiday);

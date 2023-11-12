@@ -66,7 +66,7 @@ class App {
 
   applyFreeMenu(total) {
     if (total >= 120000) {
-      return 1;
+      return 1 * 25000;
     }
 
     return 0;
