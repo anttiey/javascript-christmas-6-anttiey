@@ -63,6 +63,14 @@ class App {
     return total;
   }
 
+  applyFreeMenu(total) {
+    if (total >= 120000) {
+      return 1;
+    }
+
+    return 0;
+  }
+
   async run() {
     const date = await this.getDate();
     const orders = await this.getOrder();
@@ -71,6 +79,12 @@ class App {
 
     const total = this.calculateOrderTotal(orders);
     OutputView.printOrderTotal(total);
+
+    const result = { free: 0, christmas: 0, weekday: 0, holiday: 0, special: 0 };
+
+    if (total >= 10000) {
+      result.free = this.applyFreeMenu(total);
+    }
   }
 }
 
