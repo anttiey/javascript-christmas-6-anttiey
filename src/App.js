@@ -1,5 +1,6 @@
 import { Console } from '@woowacourse/mission-utils';
 import InputView from './InputView.js';
+import OutputView from './OutputView.js';
 import Validation from './utils/Validation.js';
 
 class App {
@@ -51,6 +52,8 @@ class App {
   async run() {
     const date = await this.getDate();
     const orders = await this.getOrder();
+
+    OutputView.printMenu(orders);
   }
 }
 
