@@ -92,6 +92,10 @@ class App {
     );
   }
 
+  applySpecialDiscount() {
+    return 1000;
+  }
+
   async run() {
     const date = await this.getDate();
     const orders = await this.getOrder();
@@ -114,6 +118,10 @@ class App {
         result.holiday = this.applyHolidayDiscount(orders);
       } else {
         result.weekday = this.applyWeekdayDiscount(orders);
+      }
+
+      if (Date.SPECIAL.includes(date)) {
+        result.special = this.applySpecialDiscount();
       }
     }
   }
