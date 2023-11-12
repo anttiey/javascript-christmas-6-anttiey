@@ -71,6 +71,10 @@ class App {
     return 0;
   }
 
+  applyChristmasDiscount(date) {
+    return 1000 + (date - 1) * 100;
+  }
+
   async run() {
     const date = await this.getDate();
     const orders = await this.getOrder();
@@ -84,6 +88,10 @@ class App {
 
     if (total >= 10000) {
       result.free = this.applyFreeMenu(total);
+
+      if (date >= 1 || date <= 25) {
+        result.christmas = this.applyChristmasDiscount(date);
+      }
     }
   }
 }
