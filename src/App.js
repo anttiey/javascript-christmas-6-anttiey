@@ -96,6 +96,19 @@ class App {
     return 1000;
   }
 
+  applyEventBadge(totalDiscount) {
+    switch (true) {
+      case totalDiscount >= 20000:
+        return '산타';
+      case totalDiscount >= 10000:
+        return '트리';
+      case totalDiscount >= 5000:
+        return '별';
+      default:
+        return '없음';
+    }
+  }
+
   calculateDiscountTotal(result) {
     return Object.values(result).reduce((acc, discount) => (acc += discount));
   }
@@ -146,6 +159,9 @@ class App {
 
     const totalOrder = this.calculateFinalOrderTotal(total, result);
     OutputView.printFinalOrderTotal(totalOrder);
+
+    const badge = this.applyEventBadge(totalDiscount);
+    OutputView.printEventBadge(badge);
   }
 }
 

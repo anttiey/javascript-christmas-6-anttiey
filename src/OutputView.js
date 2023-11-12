@@ -48,6 +48,11 @@ const OutputView = {
     Console.print('<할인 후 예상 결제 금액>');
     Console.print(`${totalOrder.toLocaleString('ko-KR')}원`);
   },
+
+  printEventBadge(badge) {
+    Console.print('<12월 이벤트 배지>');
+    Console.print(`${badge}`);
+  },
 };
 
 export default OutputView;
