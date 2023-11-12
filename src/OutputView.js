@@ -10,6 +10,14 @@ const OutputView = {
     Console.print('<할인 전 총주문 금액>');
     Console.print(`${total.toLocaleString('ko-KR')}원`);
   },
+
+  printFreeMenu(result) {
+    if (result.free === 0) {
+      Console.print('<증정 메뉴>\n없음');
+    } else {
+      Console.print('<증정 메뉴>\n샴페인 1개');
+    }
+  },
 };
 
 export default OutputView;

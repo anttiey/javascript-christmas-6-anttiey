@@ -124,6 +124,8 @@ class App {
         result.special = this.applySpecialDiscount();
       }
     }
+
+    OutputView.printFreeMenu(result);
   }
 }
 
