@@ -110,7 +110,7 @@ class App {
     if (total >= 10000) {
       result.free = this.applyFreeMenu(total);
 
-      if (date >= 1 || date <= 25) {
+      if (date >= 1 && date <= 25) {
         result.christmas = this.applyChristmasDiscount(date);
       }
 
@@ -126,6 +126,7 @@ class App {
     }
 
     OutputView.printFreeMenu(result);
+    OutputView.printAllDiscountDetails(result);
   }
 }
 

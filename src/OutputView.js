@@ -18,6 +18,26 @@ const OutputView = {
       Console.print('<증정 메뉴>\n샴페인 1개');
     }
   },
+
+  printSingleDiscountDetails(name, discount) {
+    if (discount !== 0) {
+      Console.print(`${name}: -${discount.toLocaleString('ko-KR')}원`);
+    }
+  },
+
+  printAllDiscountDetails(result) {
+    Console.print('<혜택 내역>');
+
+    if (Object.values(result).every((discount) => discount === 0)) {
+      Console.print('없음');
+    }
+
+    this.printSingleDiscountDetails('증정 이벤트', result.free * 25000);
+    this.printSingleDiscountDetails('크리스마스 디데이 할인', result.christmas);
+    this.printSingleDiscountDetails('평일 할인', result.weekday);
+    this.printSingleDiscountDetails('주말 할인', result.holiday);
+    this.printSingleDiscountDetails('특별 할인', result.special);
+  },
 };
 
 export default OutputView;
