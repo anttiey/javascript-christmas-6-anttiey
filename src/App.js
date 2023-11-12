@@ -3,6 +3,7 @@ import InputView from './InputView.js';
 import OutputView from './OutputView.js';
 import Validation from './utils/Validation.js';
 import Menu from './constants/Menu.js';
+import Date from './constants/Date.js';
 
 class App {
   async getDate() {
@@ -75,6 +76,14 @@ class App {
     return 1000 + (date - 1) * 100;
   }
 
+  applyWeekdayDiscount(orders) {
+    return (
+      orders
+        .filter(([menu]) => Menu.DESSERT.some((dessert) => menu === dessert.name))
+        .reduce((acc, [, count]) => acc + count, 0) * 2023
+    );
+  }
+
   async run() {
     const date = await this.getDate();
     const orders = await this.getOrder();
@@ -91,6 +100,11 @@ class App {
 
       if (date >= 1 || date <= 25) {
         result.christmas = this.applyChristmasDiscount(date);
+      }
+
+      if (Date.HOLIDAY.includes(date)) {
+      } else {
+        result.weekday = this.applyWeekdayDiscount(orders);
       }
     }
   }
