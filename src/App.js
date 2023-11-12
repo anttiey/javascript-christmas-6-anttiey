@@ -14,7 +14,7 @@ class App {
         Validation.validateDateNumber(Number(date));
         Validation.validateDateRange(Number(date));
 
-        return date;
+        return Number(date);
       } catch (err) {
         Console.print(err.message);
       }
@@ -84,6 +84,14 @@ class App {
     );
   }
 
+  applyHolidayDiscount(orders) {
+    return (
+      orders
+        .filter(([menu]) => Menu.MAIN.some((main) => menu === main.name))
+        .reduce((acc, [, count]) => acc + count, 0) * 2023
+    );
+  }
+
   async run() {
     const date = await this.getDate();
     const orders = await this.getOrder();
@@ -103,6 +111,7 @@ class App {
       }
 
       if (Date.HOLIDAY.includes(date)) {
+        result.holiday = this.applyHolidayDiscount(orders);
       } else {
         result.weekday = this.applyWeekdayDiscount(orders);
       }
