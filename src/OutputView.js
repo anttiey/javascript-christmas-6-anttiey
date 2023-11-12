@@ -38,6 +38,11 @@ const OutputView = {
     this.printSingleDiscountDetails('주말 할인', result.holiday);
     this.printSingleDiscountDetails('특별 할인', result.special);
   },
+
+  printDiscountTotal(totalDiscount) {
+    Console.print('<총혜택 금액>');
+    Console.print(`${totalDiscount.toLocaleString('ko-KR')}원`);
+  },
 };
 
 export default OutputView;
