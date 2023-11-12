@@ -26,9 +26,46 @@ describe('식당 예상 방문 날짜 유효성 테스트', () => {
   });
 
   test('날짜가 1 이상 31 이하가 아닌 경우, 예외가 발생한다.', () => {
-    const input = '32';
     expect(() => Validation.validateDateRange(Number('32'))).toThrow(
       '[ERROR] 유효하지 않은 날짜입니다. 다시 입력해 주세요.'
+    );
+  });
+});
+
+describe('주문 메뉴와 개수 유효성 테스트', () => {
+  test('메뉴 형식이 예시와 다른 경우, 예외가 발생한다.', () => {
+    expect(() => Validation.validateOrderForm('해산물파스타/1')).toThrow(
+      '[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.'
+    );
+  });
+
+  test('메뉴판에 없는 메뉴를 입력하는 경우, 예외가 발생한다.', () => {
+    expect(() => Validation.validateMenu('마라탕')).toThrow(
+      '[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.'
+    );
+  });
+
+  test('중복 메뉴를 입력한 경우, 예외가 발생한다.', () => {
+    expect(() => Validation.validateMenuDuplicate(['해산물파스타', '해산물파스타'])).toThrow(
+      '[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.'
+    );
+  });
+
+  test('메뉴의 개수가 1 이상이 아닌 경우, 예외가 발생한다.', () => {
+    expect(() => Validation.validateMenuCountRange(0)).toThrow(
+      '[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.'
+    );
+  });
+
+  test('음료만 주문한 경우, 예외가 발생한다.', () => {
+    expect(() => Validation.validateOnlyDrink(['제로콜라'])).toThrow(
+      '[ERROR] 음료만 주문 시, 주문할 수 없습니다. 다시 입력해 주세요.'
+    );
+  });
+
+  test('메뉴를 한 번에 20개 이상 주문한 경우, 예외가 발생한다.', () => {
+    expect(() => Validation.validateMenuCountTotal([15, 5, 5])).toThrow(
+      '[ERROR] 메뉴는 한 번에 최대 20개까지만 주문할 수 있습니다. 다시 입력해 주세요.'
     );
   });
 });
