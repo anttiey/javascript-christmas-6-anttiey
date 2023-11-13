@@ -1,4 +1,5 @@
 import { Console } from '@woowacourse/mission-utils';
+import Discount from './Discount.js';
 import InputView from './InputView.js';
 import OutputView from './OutputView.js';
 import Validation from './utils/Validation.js';
@@ -6,6 +7,12 @@ import Menu from './constants/Menu.js';
 import Date from './constants/Date.js';
 
 class App {
+  #discount;
+
+  constructor() {
+    this.#discount = new Discount();
+  }
+
   async getDate() {
     while (true) {
       try {
@@ -66,37 +73,42 @@ class App {
 
   applyFreeMenu(total) {
     if (total >= 120000) {
-      return 1 * 25000;
+      this.#discount.setFree(1 * 25000);
     }
 
-    return 0;
+    this.#discount.setFree(0);
   }
 
   applyChristmasDiscount(date) {
-    return 1000 + (date - 1) * 100;
+    const discount = 1000 + (date - 1) * 100;
+    this.#discount.setChristmas(discount);
   }
 
   applyWeekdayDiscount(orders) {
-    return (
+    const discount =
       orders
         .filter(([menu]) => Menu.DESSERT.some((dessert) => menu === dessert.name))
-        .reduce((acc, [, count]) => acc + count, 0) * 2023
-    );
+        .reduce((acc, [, count]) => acc + count, 0) * 2023;
+
+    this.#discount.setWeekday(discount);
   }
 
   applyHolidayDiscount(orders) {
-    return (
+    const discount =
       orders
         .filter(([menu]) => Menu.MAIN.some((main) => menu === main.name))
-        .reduce((acc, [, count]) => acc + count, 0) * 2023
-    );
+        .reduce((acc, [, count]) => acc + count, 0) * 2023;
+
+    this.#discount.setHoliday(discount);
   }
 
   applySpecialDiscount() {
-    return 1000;
+    return this.#discount.setSpecial(1000);
   }
 
-  applyEventBadge(totalDiscount) {
+  applyEventBadge() {
+    const totalDiscount = this.#discount.calculateDiscountTotal();
+
     switch (true) {
       case totalDiscount >= 20000:
         return '산타';
@@ -109,17 +121,8 @@ class App {
     }
   }
 
-  calculateDiscountTotal(result) {
-    return Object.values(result).reduce((acc, discount) => (acc += discount));
-  }
-
-  calculateDiscountTotal(result) {
-    return Object.values(result).reduce((acc, discount) => (acc += discount));
-  }
-
-  calculateFinalOrderTotal(total, result) {
-    const { free, ...otherResult } = result;
-    return total - Object.values(otherResult).reduce((acc, discount) => (acc += discount));
+  calculateFinalOrderTotal(total) {
+    return total - this.#discount.calculateRealDiscountTotal();
   }
 
   async run() {
@@ -131,36 +134,35 @@ class App {
     const total = this.calculateOrderTotal(orders);
     OutputView.printOrderTotal(total);
 
-    const result = { free: 0, christmas: 0, weekday: 0, holiday: 0, special: 0 };
-
     if (total >= 10000) {
-      result.free = this.applyFreeMenu(total);
+      this.#discount.setFree = this.applyFreeMenu(total);
 
       if (date >= 1 && date <= 25) {
-        result.christmas = this.applyChristmasDiscount(date);
+        this.applyChristmasDiscount(date);
       }
 
       if (Date.HOLIDAY.includes(date)) {
-        result.holiday = this.applyHolidayDiscount(orders);
+        this.applyHolidayDiscount(orders);
       } else {
-        result.weekday = this.applyWeekdayDiscount(orders);
+        this.applyWeekdayDiscount(orders);
       }
 
       if (Date.SPECIAL.includes(date)) {
-        result.special = this.applySpecialDiscount();
+        this.applySpecialDiscount();
       }
     }
+
+    const result = this.#discount.getResult();
 
     OutputView.printFreeMenu(result);
     OutputView.printAllDiscountDetails(result);
 
-    const totalDiscount = this.calculateDiscountTotal(result);
-    OutputView.printDiscountTotal(totalDiscount);
+    OutputView.printDiscountTotal(this.#discount.calculateDiscountTotal());
 
-    const totalOrder = this.calculateFinalOrderTotal(total, result);
+    const totalOrder = this.calculateFinalOrderTotal(total);
     OutputView.printFinalOrderTotal(totalOrder);
 
-    const badge = this.applyEventBadge(totalDiscount);
+    const badge = this.applyEventBadge();
     OutputView.printEventBadge(badge);
   }
 }
