@@ -1,4 +1,5 @@
 import { Console } from '@woowacourse/mission-utils';
+import User from './User.js';
 import Discount from './Discount.js';
 import InputView from './InputView.js';
 import OutputView from './OutputView.js';
@@ -7,9 +8,11 @@ import Menu from './constants/Menu.js';
 import Date from './constants/Date.js';
 
 class App {
+  #user;
   #discount;
 
   constructor() {
+    this.#user = new User();
     this.#discount = new Discount();
   }
 
@@ -17,11 +20,8 @@ class App {
     while (true) {
       try {
         const date = await InputView.readDate();
-
-        Validation.validateDateNumber(Number(date));
-        Validation.validateDateRange(Number(date));
-
-        return Number(date);
+        this.#user.setDate(Number(date));
+        break;
       } catch (err) {
         Console.print(err.message);
       }
@@ -39,19 +39,8 @@ class App {
           return [menu, Number(count)];
         });
 
-        orders.forEach(([menu, count]) => {
-          Validation.validateMenu(menu);
-          Validation.validateMenuCountRange(count);
-        });
-
-        const menus = orders.map(([menu]) => menu);
-        Validation.validateMenuDuplicate(menus);
-        Validation.validateOnlyDrink(menus);
-
-        const counts = orders.map(([, count]) => count);
-        Validation.validateMenuCountTotal(counts);
-
-        return orders;
+        this.#user.setOrders(orders);
+        break;
       } catch (err) {
         Console.print(err.message);
       }
@@ -126,28 +115,28 @@ class App {
   }
 
   async run() {
-    const date = await this.getDate();
-    const orders = await this.getOrder();
+    await this.getDate();
+    await this.getOrder();
 
-    OutputView.printMenu(orders);
+    OutputView.printMenu(this.#user.getOrders());
 
-    const total = this.calculateOrderTotal(orders);
+    const total = this.calculateOrderTotal(this.#user.getOrders());
     OutputView.printOrderTotal(total);
 
     if (total >= 10000) {
-      this.#discount.setFree = this.applyFreeMenu(total);
+      this.applyFreeMenu(total);
 
-      if (date >= 1 && date <= 25) {
-        this.applyChristmasDiscount(date);
+      if (this.#user.getDate() >= 1 && this.#user.getDate() <= 25) {
+        this.applyChristmasDiscount(this.#user.getDate());
       }
 
-      if (Date.HOLIDAY.includes(date)) {
-        this.applyHolidayDiscount(orders);
+      if (Date.HOLIDAY.includes(this.#user.getDate())) {
+        this.applyHolidayDiscount(this.#user.getOrders());
       } else {
-        this.applyWeekdayDiscount(orders);
+        this.applyWeekdayDiscount(this.#user.getOrders());
       }
 
-      if (Date.SPECIAL.includes(date)) {
+      if (Date.SPECIAL.includes(this.#user.getDate())) {
         this.applySpecialDiscount();
       }
     }
