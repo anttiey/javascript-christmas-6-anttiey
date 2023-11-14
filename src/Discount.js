@@ -1,3 +1,5 @@
+import Menu from './constants/Menu.js';
+
 class Discount {
   #free;
   #christmas;
@@ -13,24 +15,34 @@ class Discount {
     this.#special = 0;
   }
 
-  setFree(free) {
-    this.#free = free;
+  applyFreeMenu(total) {
+    if (total >= 120000) {
+      this.#free = 1 * 25000;
+    }
+
+    this.#free = 0;
   }
 
-  setChristmas(christmas) {
-    this.#christmas = christmas;
+  applyChristmasDiscount(date) {
+    this.#christmas = 1000 + (date - 1) * 100;
   }
 
-  setWeekday(weekday) {
-    this.#weekday = weekday;
+  applyWeekdayDiscount(orders) {
+    this.#weekday =
+      orders
+        .filter(([menu]) => Menu.DESSERT.some((dessert) => menu === dessert.name))
+        .reduce((acc, [, count]) => acc + count, 0) * 2023;
   }
 
-  setHoliday(holiday) {
-    this.#holiday = holiday;
+  applyHolidayDiscount(orders) {
+    this.#holiday =
+      orders
+        .filter(([menu]) => Menu.MAIN.some((main) => menu === main.name))
+        .reduce((acc, [, count]) => acc + count, 0) * 2023;
   }
 
-  setSpecial(special) {
-    this.#special = special;
+  applySpecialDiscount() {
+    this.#special = 1000;
   }
 
   getResult() {

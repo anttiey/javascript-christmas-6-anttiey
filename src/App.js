@@ -1,17 +1,18 @@
 import { Console } from '@woowacourse/mission-utils';
+import Host from './Host.js';
 import User from './User.js';
 import Discount from './Discount.js';
 import InputView from './InputView.js';
 import OutputView from './OutputView.js';
 import Validation from './utils/Validation.js';
-import Menu from './constants/Menu.js';
-import Date from './constants/Date.js';
 
 class App {
+  #host;
   #user;
   #discount;
 
   constructor() {
+    this.#host = new Host();
     this.#user = new User();
     this.#discount = new Discount();
   }
@@ -47,56 +48,6 @@ class App {
     }
   }
 
-  applyFreeMenu(total) {
-    if (total >= 120000) {
-      this.#discount.setFree(1 * 25000);
-    }
-
-    this.#discount.setFree(0);
-  }
-
-  applyChristmasDiscount(date) {
-    const discount = 1000 + (date - 1) * 100;
-    this.#discount.setChristmas(discount);
-  }
-
-  applyWeekdayDiscount(orders) {
-    const discount =
-      orders
-        .filter(([menu]) => Menu.DESSERT.some((dessert) => menu === dessert.name))
-        .reduce((acc, [, count]) => acc + count, 0) * 2023;
-
-    this.#discount.setWeekday(discount);
-  }
-
-  applyHolidayDiscount(orders) {
-    const discount =
-      orders
-        .filter(([menu]) => Menu.MAIN.some((main) => menu === main.name))
-        .reduce((acc, [, count]) => acc + count, 0) * 2023;
-
-    this.#discount.setHoliday(discount);
-  }
-
-  applySpecialDiscount() {
-    return this.#discount.setSpecial(1000);
-  }
-
-  applyEventBadge() {
-    const totalDiscount = this.#discount.calculateDiscountTotal();
-
-    switch (true) {
-      case totalDiscount >= 20000:
-        return '산타';
-      case totalDiscount >= 10000:
-        return '트리';
-      case totalDiscount >= 5000:
-        return '별';
-      default:
-        return '없음';
-    }
-  }
-
   calculateFinalOrderTotal(total) {
     return total - this.#discount.calculateRealDiscountTotal();
   }
@@ -110,23 +61,12 @@ class App {
     const total = this.#user.calculateOrderTotal();
     OutputView.printOrderTotal(total);
 
-    if (total >= 10000) {
-      this.applyFreeMenu(total);
-
-      if (this.#user.getDate() >= 1 && this.#user.getDate() <= 25) {
-        this.applyChristmasDiscount(this.#user.getDate());
-      }
-
-      if (Date.HOLIDAY.includes(this.#user.getDate())) {
-        this.applyHolidayDiscount(this.#user.getOrders());
-      } else {
-        this.applyWeekdayDiscount(this.#user.getOrders());
-      }
-
-      if (Date.SPECIAL.includes(this.#user.getDate())) {
-        this.applySpecialDiscount();
-      }
-    }
+    this.#host.handleEventDiscount(
+      this.#user.getDate(),
+      this.#user.getOrders(),
+      total,
+      this.#discount
+    );
 
     const result = this.#discount.getResult();
 
@@ -138,7 +78,7 @@ class App {
     const totalOrder = this.calculateFinalOrderTotal(total);
     OutputView.printFinalOrderTotal(totalOrder);
 
-    const badge = this.applyEventBadge();
+    const badge = this.#host.handleEventBadge(this.#discount.calculateDiscountTotal());
     OutputView.printEventBadge(badge);
   }
 }
