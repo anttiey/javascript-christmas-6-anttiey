@@ -48,10 +48,6 @@ class App {
     }
   }
 
-  calculateFinalOrderTotal(total) {
-    return total - this.#discount.calculateRealDiscountTotal();
-  }
-
   async run() {
     await this.getDate();
     await this.getOrder();
@@ -75,7 +71,10 @@ class App {
 
     OutputView.printDiscountTotal(this.#discount.calculateDiscountTotal());
 
-    const totalOrder = this.calculateFinalOrderTotal(total);
+    const totalOrder = this.#user.calculateFinalOrderTotal(
+      total - this.#discount.calculateRealDiscountTotal
+    );
+
     OutputView.printFinalOrderTotal(totalOrder);
 
     const badge = this.#host.handleEventBadge(this.#discount.calculateDiscountTotal());

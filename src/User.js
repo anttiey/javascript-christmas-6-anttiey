@@ -75,6 +75,10 @@ class User {
 
     return total;
   }
+
+  calculateFinalOrderTotal(total, totalDiscount) {
+    return total - totalDiscount;
+  }
 }
 
 export default User;
