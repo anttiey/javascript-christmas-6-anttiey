@@ -33,15 +33,15 @@ class Discount {
   applyWeekdayDiscount(orders) {
     this.#weekday =
       orders
-        .filter(([menu]) => Menu.DESSERT.some((dessert) => menu === dessert.name))
-        .reduce((acc, [, count]) => acc + count, 0) * DISCOUNT_EVENT.weekday;
+        .filter((order) => Menu.DESSERT.some((dessert) => order.getMenu() === dessert.name))
+        .reduce((acc, order) => acc + order.getCount(), 0) * DISCOUNT_EVENT.weekday;
   }
 
   applyHolidayDiscount(orders) {
     this.#holiday =
       orders
-        .filter(([menu]) => Menu.MAIN.some((main) => menu === main.name))
-        .reduce((acc, [, count]) => acc + count, 0) * DISCOUNT_EVENT.holiday;
+        .filter((order) => Menu.MAIN.some((main) => order.getMenu() === main.name))
+        .reduce((acc, order) => acc + order.getCount(), 0) * DISCOUNT_EVENT.holiday;
   }
 
   applySpecialDiscount() {

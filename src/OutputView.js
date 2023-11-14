@@ -6,7 +6,7 @@ const { OUTPUT, EVENT } = Messages;
 const OutputView = {
   printMenu(orders) {
     Console.print(OUTPUT.order);
-    orders.forEach(([menu, count]) => OUTPUT.order_detail(menu, count));
+    orders.forEach((order) => OUTPUT.order_detail(order.getMenu(), order.getCount()));
   },
 
   printOrderTotal(total) {

@@ -15,14 +15,6 @@ class User {
     Validation.validateDateRange(date);
   }
 
-  #validateMenu(menu) {
-    Validation.validateMenu(menu);
-  }
-
-  #validateCount(count) {
-    Validation.validateMenuCountRange(count);
-  }
-
   #validateMenus(menus) {
     Validation.validateMenuDuplicate(menus);
     Validation.validateOnlyDrink(menus);
@@ -33,15 +25,8 @@ class User {
   }
 
   #validateOrders(orders) {
-    const menus = orders.map(([menu]) => {
-      this.#validateMenu(menu);
-      return menu;
-    });
-
-    const counts = orders.map(([count]) => {
-      this.#validateCount;
-      return count;
-    });
+    const menus = orders.map((order) => order.getMenu());
+    const counts = orders.map((order) => order.getCount());
 
     this.#validateMenus(menus);
     this.#validateCounts(counts);
@@ -66,14 +51,7 @@ class User {
   }
 
   calculateOrderTotal() {
-    let total = 0;
-
-    this.#orders.forEach(([menu, count]) => {
-      const { price } = Menu.ALL_MENU.find((el) => el.name === menu);
-      total += count * price;
-    });
-
-    return total;
+    return this.#orders.reduce((total, order) => total + order.calculateOrderPrice(), 0);
   }
 
   calculateFinalOrderTotal(totalDiscount) {

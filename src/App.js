@@ -1,6 +1,7 @@
 import { Console } from '@woowacourse/mission-utils';
 import Host from './Host.js';
 import User from './User.js';
+import Order from './Order.js';
 import Discount from './Discount.js';
 import InputView from './InputView.js';
 import OutputView from './OutputView.js';
@@ -40,7 +41,7 @@ class App {
         const orders = orderStr.split(ORDER_DELIMITER).map((order) => {
           Validation.validateOrderForm(order);
           const [menu, count] = order.split(MENU_COUNT_DELIMITER);
-          return [menu, Number(count)];
+          return new Order([menu, Number(count)]);
         });
 
         this.#user.setOrders(orders);
