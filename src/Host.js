@@ -5,23 +5,15 @@ const { EVENT_TOTAL_MIN, CHRISTMAS_EVENT, BADGE_NAME, BADGE_PRICE } = Condition;
 
 class Host {
   handleEventDiscount(date, orders, total, discount) {
-    if (total >= EVENT_TOTAL_MIN) {
-      discount.applyFreeMenu(total);
-
-      if (date >= CHRISTMAS_EVENT.start && date <= CHRISTMAS_EVENT.end) {
-        discount.applyChristmasDiscount(date);
-      }
-
-      if (Date.HOLIDAY.includes(date)) {
-        discount.applyHolidayDiscount(orders);
-      } else {
-        discount.applyWeekdayDiscount(orders);
-      }
-
-      if (Date.SPECIAL.includes(date)) {
-        discount.applySpecialDiscount();
-      }
+    if (total < EVENT_TOTAL_MIN) {
+      return;
     }
+
+    discount.applyFreeMenu(total);
+    discount.applyChristmasDiscount(date);
+    discount.applyHolidayDiscount(date, orders);
+    discount.applyWeekdayDiscount(date, orders);
+    discount.applySpecialDiscount(date);
   }
 
   handleEventBadge(totalDiscount) {
