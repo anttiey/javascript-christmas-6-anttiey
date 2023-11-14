@@ -1,4 +1,5 @@
 import Validation from './utils/Validation.js';
+import Menu from './constants/Menu.js';
 
 class User {
   #date;
@@ -62,6 +63,19 @@ class User {
 
   getOrders() {
     return this.#orders;
+  }
+
+  calculateOrderTotal() {
+    const menuList = [...Menu.APPETIZER, ...Menu.MAIN, ...Menu.DESSERT, ...Menu.DRINK];
+
+    let total = 0;
+
+    this.#orders.forEach(([menu, count]) => {
+      const { price } = menuList.find((el) => el.name === menu);
+      total += count * price;
+    });
+
+    return total;
   }
 }
 

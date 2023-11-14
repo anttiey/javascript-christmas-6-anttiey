@@ -47,19 +47,6 @@ class App {
     }
   }
 
-  calculateOrderTotal(orders) {
-    const menuList = [...Menu.APPETIZER, ...Menu.MAIN, ...Menu.DESSERT, ...Menu.DRINK];
-
-    let total = 0;
-
-    orders.forEach(([menu, count]) => {
-      const { price } = menuList.find((el) => el.name === menu);
-      total += count * price;
-    });
-
-    return total;
-  }
-
   applyFreeMenu(total) {
     if (total >= 120000) {
       this.#discount.setFree(1 * 25000);
@@ -120,7 +107,7 @@ class App {
 
     OutputView.printMenu(this.#user.getOrders());
 
-    const total = this.calculateOrderTotal(this.#user.getOrders());
+    const total = this.#user.calculateOrderTotal();
     OutputView.printOrderTotal(total);
 
     if (total >= 10000) {
