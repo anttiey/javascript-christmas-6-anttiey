@@ -70,3 +70,33 @@ describe('총 혜택 금액 계산 테스트', () => {
     }
   );
 });
+
+describe('할인 후 예상 결제 금액 계산 테스트', () => {
+  test.each([
+    [7, [new Order(['양송이수프', 1])], 6000],
+    [
+      10,
+      [new Order(['양송이수프', 1]), new Order(['티본스테이크', 1]), new Order(['초코케이크', 1])],
+      71077,
+    ],
+    [
+      10,
+      [new Order(['양송이수프', 1]), new Order(['티본스테이크', 2]), new Order(['초코케이크', 1])],
+      126077,
+    ],
+  ])(
+    '할인 전 총 주문 금액에서 할인 금액을 빼, 알맞은 할인 후 예상 결제 금액을 반환한다.',
+    (date, orders, value) => {
+      const user = new User();
+      const discount = new Discount();
+      const host = new Host();
+
+      user.setDate(date);
+      user.setOrders(orders);
+
+      host.handleEventDiscount(date, orders, user.calculateOrderTotal(), discount);
+
+      expect(user.calculateFinalOrderTotal(discount.calculateRealDiscountTotal())).toEqual(value);
+    }
+  );
+});
