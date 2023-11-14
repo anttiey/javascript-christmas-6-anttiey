@@ -100,3 +100,21 @@ describe('할인 후 예상 결제 금액 계산 테스트', () => {
     }
   );
 });
+
+describe('이벤트 배지 부여 테스트', () => {
+  test('총 주문 금액이 2만 원 이상이면, 산타를 부여한다.', () => {
+    expect(new Host().handleEventBadge(20000)).toEqual('산타');
+  });
+
+  test('총 주문 금액이 1만 원 이상 2만 원 미만이면, 트리를 부여한다.', () => {
+    expect(new Host().handleEventBadge(10000)).toEqual('트리');
+  });
+
+  test('총 주문 금액이 5천 원 이상 1만 원 미만이면, 별을 부여한다.', () => {
+    expect(new Host().handleEventBadge(5000)).toEqual('별');
+  });
+
+  test('총 주문 금액이 5천 원 미만이면, 이벤트 배지를 부여하지 않는다.', () => {
+    expect(new Host().handleEventBadge(1000)).toEqual('없음');
+  });
+});
