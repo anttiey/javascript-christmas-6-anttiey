@@ -1,5 +1,6 @@
 import User from '../src/User.js';
 import Order from '../src/Order.js';
+import Discount from '../src/Discount.js';
 
 describe('할인 전 총 주문 금액 계산 테스트', () => {
   test.each([
@@ -27,4 +28,26 @@ describe('할인 전 총 주문 금액 계산 테스트', () => {
 
     expect(user.calculateOrderTotal()).toEqual(total);
   });
+});
+
+describe('증정 메뉴 헤택 계산 테스트', () => {
+  test.each([120000, 130000, 200000])(
+    '총 주문 금액이 12만 원 이상이면, 증정 메뉴 혜택은 25000원이다.',
+    (total) => {
+      const discount = new Discount();
+      discount.applyFreeMenu(total);
+
+      expect(discount.getResult().free).toEqual(25000);
+    }
+  );
+
+  test.each([10000, 70000, 119999])(
+    '총 주문 금액이 12만 원 이하이면, 증정 메뉴 혜택은 0원이다.',
+    (total) => {
+      const discount = new Discount();
+      discount.applyFreeMenu(total);
+
+      expect(discount.getResult().free).toEqual(0);
+    }
+  );
 });
