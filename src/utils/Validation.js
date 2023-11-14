@@ -28,9 +28,7 @@ class Validation {
   }
 
   static validateMenu(input) {
-    const menuList = [...Menu.APPETIZER, ...Menu.MAIN, ...Menu.DESSERT, ...Menu.DRINK];
-
-    if (!menuList.some((menu) => menu.name === input)) {
+    if (!Menu.ALL_MENU.some((menu) => menu.name === input)) {
       throw new Error('[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.');
     }
   }
@@ -48,9 +46,7 @@ class Validation {
   }
 
   static validateOnlyDrink(input) {
-    const menuList = [...Menu.APPETIZER, ...Menu.MAIN, ...Menu.DESSERT];
-
-    if (!input.some((el) => menuList.some((menu) => menu.name === el))) {
+    if (!input.some((el) => Menu.EXCEPT_DRINK_MENU.some((menu) => menu.name === el))) {
       throw new Error('[ERROR] 음료만 주문 시, 주문할 수 없습니다. 다시 입력해 주세요.');
     }
   }

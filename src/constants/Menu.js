@@ -58,4 +58,7 @@ const DRINK = [
   },
 ];
 
-export default { APPETIZER, MAIN, DESSERT, DRINK };
+const ALL_MENU = [...APPETIZER, ...MAIN, ...DESSERT, ...DRINK];
+const EXCEPT_DRINK_MENU = [...APPETIZER, ...MAIN, ...DESSERT];
+
+export default { APPETIZER, MAIN, DESSERT, DRINK, ALL_MENU, EXCEPT_DRINK_MENU };

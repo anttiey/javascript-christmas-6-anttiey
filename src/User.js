@@ -66,12 +66,10 @@ class User {
   }
 
   calculateOrderTotal() {
-    const menuList = [...Menu.APPETIZER, ...Menu.MAIN, ...Menu.DESSERT, ...Menu.DRINK];
-
     let total = 0;
 
     this.#orders.forEach(([menu, count]) => {
-      const { price } = menuList.find((el) => el.name === menu);
+      const { price } = Menu.ALL_MENU.find((el) => el.name === menu);
       total += count * price;
     });
 
