@@ -123,3 +123,22 @@ describe('주말 할인 헤택 계산 테스트', () => {
     expect(discount.getResult().holiday).toEqual(0);
   });
 });
+
+describe('특별 할인 헤택 계산 테스트', () => {
+  test.each([3, 10, 17, 24, 25, 31])('달력에 별이 있는 날이라면, 1000원 할인한다.', (date) => {
+    const discount = new Discount();
+    discount.applySpecialDiscount(date);
+
+    expect(discount.getResult().special).toEqual(1000);
+  });
+
+  test.each([4, 5, 11, 12, 26])(
+    '달력에 별이 있는 날이 아니라면, 할인 혜택을 제공하지 않는다.',
+    (date) => {
+      const discount = new Discount();
+      discount.applySpecialDiscount(date);
+
+      expect(discount.getResult().special).toEqual(0);
+    }
+  );
+});
