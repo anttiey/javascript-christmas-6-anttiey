@@ -330,8 +330,8 @@
 <td>11월 13일 (월)</td>
 <td>코드 점검 및 리팩토링</td>
 <td>3 Hours</td>
-<td style="text-align: center">🔴</td>
-<td>-</td>
+<td style="text-align: center">🟢</td>
+<td>3 Hours</td>
 </tr>
 <tr>
 <td>11월 14일 (화)</td>
