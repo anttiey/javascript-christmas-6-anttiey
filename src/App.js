@@ -5,6 +5,9 @@ import Discount from './Discount.js';
 import InputView from './InputView.js';
 import OutputView from './OutputView.js';
 import Validation from './utils/Validation.js';
+import Condition from './constants/Condition.js';
+
+const { ORDER_DELIMITER, MENU_COUNT_DELIMITER } = Condition;
 
 class App {
   #host;
@@ -34,9 +37,9 @@ class App {
       try {
         const orderStr = await InputView.readOrder();
 
-        const orders = orderStr.split(',').map((order) => {
+        const orders = orderStr.split(ORDER_DELIMITER).map((order) => {
           Validation.validateOrderForm(order);
-          const [menu, count] = order.split('-');
+          const [menu, count] = order.split(MENU_COUNT_DELIMITER);
           return [menu, Number(count)];
         });
 

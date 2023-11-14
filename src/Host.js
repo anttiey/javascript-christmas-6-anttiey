@@ -1,11 +1,14 @@
 import Date from './constants/Date.js';
+import Condition from './constants/Condition.js';
+
+const { EVENT_TOTAL_MIN, CHRISTMAS_EVENT, BADGE_NAME, BADGE_PRICE } = Condition;
 
 class Host {
   handleEventDiscount(date, orders, total, discount) {
-    if (total >= 10000) {
+    if (total >= EVENT_TOTAL_MIN) {
       discount.applyFreeMenu(total);
 
-      if (date >= 1 && date <= 25) {
+      if (date >= CHRISTMAS_EVENT.start && date <= CHRISTMAS_EVENT.end) {
         discount.applyChristmasDiscount(date);
       }
 
@@ -23,14 +26,14 @@ class Host {
 
   handleEventBadge(totalDiscount) {
     switch (true) {
-      case totalDiscount >= 20000:
-        return '산타';
-      case totalDiscount >= 10000:
-        return '트리';
-      case totalDiscount >= 5000:
-        return '별';
+      case totalDiscount >= BADGE_PRICE.santa:
+        return BADGE_NAME.santa;
+      case totalDiscount >= BADGE_PRICE.tree:
+        return BADGE_NAME.tree;
+      case totalDiscount >= BADGE_PRICE.star:
+        return BADGE_NAME.star;
       default:
-        return '없음';
+        return BADGE_NAME.none;
     }
   }
 }
