@@ -15,8 +15,13 @@ const OutputView = {
     Console.print(OUTPUT.order_total(total));
   },
 
-  printFreeMenu(result) {
-    if (result.free === 0) {
+  printOrderResult(user) {
+    this.printMenu(user.getOrders());
+    this.printOrderTotal(user.calculateOrderTotal());
+  },
+
+  printFreeMenu(free) {
+    if (free === 0) {
       Console.print(OUTPUT.free_none);
     } else {
       Console.print(OUTPUT.free_exist);
@@ -41,6 +46,11 @@ const OutputView = {
     this.printSingleDiscountDetails(EVENT.weekday, result.weekday);
     this.printSingleDiscountDetails(EVENT.holiday, result.holiday);
     this.printSingleDiscountDetails(EVENT.special, result.special);
+  },
+
+  printEventResult(result) {
+    this.printFreeMenu(result.free);
+    this.printAllDiscountDetails(result);
   },
 
   printDiscountTotal(totalDiscount) {
