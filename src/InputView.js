@@ -1,19 +1,18 @@
 import { Console } from '@woowacourse/mission-utils';
 import Validation from './utils/Validation.js';
+import Messages from './constants/Messages.js';
+
+const { INPUT } = Messages;
 
 const InputView = {
   async readDate() {
-    const input = await this.read(
-      '12월 중 식당 예상 방문 날짜는 언제인가요? (숫자만 입력해 주세요!)\n'
-    );
+    const input = await this.read(INPUT.date);
 
     return input.trim();
   },
 
   async readOrder() {
-    const input = await this.read(
-      '주문하실 메뉴를 메뉴와 개수를 알려 주세요. (e.g. 해산물파스타-2,레드와인-1,초코케이크-1)\n'
-    );
+    const input = await this.read(INPUT.order);
 
     return input.trim();
   },

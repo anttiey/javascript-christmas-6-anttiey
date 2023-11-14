@@ -1,21 +1,24 @@
 import Menu from '../constants/Menu.js';
+import Messages from '../constants/Messages.js';
+
+const { ERROR } = Messages;
 
 class Validation {
   static validateInputEmpty(input) {
     if (input === '') {
-      throw new Error('[ERROR] 입력이 없습니다.');
+      throw new Error(ERROR.null);
     }
   }
 
   static validateDateNumber(input) {
     if (Number.isNaN(input)) {
-      throw new Error('[ERROR] 유효하지 않은 날짜입니다. 다시 입력해 주세요.');
+      throw new Error(ERROR.date);
     }
   }
 
   static validateDateRange(input) {
     if (input < 1 || input > 31) {
-      throw new Error('[ERROR] 유효하지 않은 날짜입니다. 다시 입력해 주세요.');
+      throw new Error(ERROR.date);
     }
   }
 
@@ -23,39 +26,37 @@ class Validation {
     const orderRegex = /^[a-zA-Z가-힣]+-\d+$/;
 
     if (!orderRegex.test(input)) {
-      throw new Error('[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.');
+      throw new Error(ERROR.order);
     }
   }
 
   static validateMenu(input) {
     if (!Menu.ALL_MENU.some((menu) => menu.name === input)) {
-      throw new Error('[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.');
+      throw new Error(ERROR.order);
     }
   }
 
   static validateMenuDuplicate(input) {
     if (new Set(input).size !== input.length) {
-      throw new Error('[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.');
+      throw new Error(ERROR.order);
     }
   }
 
   static validateMenuCountRange(input) {
     if (input < 1) {
-      throw new Error('[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.');
+      throw new Error(ERROR.order);
     }
   }
 
   static validateOnlyDrink(input) {
     if (!input.some((el) => Menu.EXCEPT_DRINK_MENU.some((menu) => menu.name === el))) {
-      throw new Error('[ERROR] 음료만 주문 시, 주문할 수 없습니다. 다시 입력해 주세요.');
+      throw new Error(ERROR.only_drink);
     }
   }
 
   static validateMenuCountTotal(input) {
     if (input.reduce((total, amount) => total + amount) > 20) {
-      throw new Error(
-        '[ERROR] 메뉴는 한 번에 최대 20개까지만 주문할 수 있습니다. 다시 입력해 주세요.'
-      );
+      throw new Error(ERROR.menu_count);
     }
   }
 }

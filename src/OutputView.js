@@ -1,57 +1,56 @@
 import { Console } from '@woowacourse/mission-utils';
+import Messages from './constants/Messages.js';
+
+const { OUTPUT, EVENT } = Messages;
 
 const OutputView = {
   printMenu(orders) {
-    Console.print('<주문 메뉴>');
-    orders.forEach(([menu, count]) => Console.print(`${menu} ${count}개`));
+    Console.print(OUTPUT.order);
+    orders.forEach(([menu, count]) => OUTPUT.order_detail(menu, count));
   },
 
   printOrderTotal(total) {
-    Console.print('<할인 전 총주문 금액>');
-    Console.print(`${total.toLocaleString('ko-KR')}원`);
+    Console.print(OUTPUT.order_total(total));
   },
 
   printFreeMenu(result) {
     if (result.free === 0) {
-      Console.print('<증정 메뉴>\n없음');
+      Console.print(OUTPUT.free_none);
     } else {
-      Console.print('<증정 메뉴>\n샴페인 1개');
+      Console.print(OUTPUT.free_exist);
     }
   },
 
   printSingleDiscountDetails(name, discount) {
     if (discount !== 0) {
-      Console.print(`${name}: -${discount.toLocaleString('ko-KR')}원`);
+      Console.print(OUTPUT.discount_detail(name, discount));
     }
   },
 
   printAllDiscountDetails(result) {
-    Console.print('<혜택 내역>');
+    Console.print(OUTPUT.discount);
 
     if (Object.values(result).every((discount) => discount === 0)) {
-      Console.print('없음');
+      Console.print(OUTPUT.discount_none);
     }
 
-    this.printSingleDiscountDetails('증정 이벤트', result.free);
-    this.printSingleDiscountDetails('크리스마스 디데이 할인', result.christmas);
-    this.printSingleDiscountDetails('평일 할인', result.weekday);
-    this.printSingleDiscountDetails('주말 할인', result.holiday);
-    this.printSingleDiscountDetails('특별 할인', result.special);
+    this.printSingleDiscountDetails(EVENT.free, result.free);
+    this.printSingleDiscountDetails(EVENT.christmas, result.christmas);
+    this.printSingleDiscountDetails(EVENT.weekday, result.weekday);
+    this.printSingleDiscountDetails(EVENT.holiday, result.holiday);
+    this.printSingleDiscountDetails(EVENT.special, result.special);
   },
 
   printDiscountTotal(totalDiscount) {
-    Console.print('<총혜택 금액>');
-    Console.print(`${totalDiscount.toLocaleString('ko-KR')}원`);
+    Console.print(OUTPUT.discount_total(totalDiscount));
   },
 
   printFinalOrderTotal(totalOrder) {
-    Console.print('<할인 후 예상 결제 금액>');
-    Console.print(`${totalOrder.toLocaleString('ko-KR')}원`);
+    Console.print(OUTPUT.final_order_total(totalOrder));
   },
 
   printEventBadge(badge) {
-    Console.print('<12월 이벤트 배지>');
-    Console.print(`${badge}`);
+    Console.print(OUTPUT.badge(badge));
   },
 };
 
