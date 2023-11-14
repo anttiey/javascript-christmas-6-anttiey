@@ -51,3 +51,29 @@ describe('증정 메뉴 헤택 계산 테스트', () => {
     }
   );
 });
+
+describe('크리스마스 디데이 할인 헤택 계산 테스트', () => {
+  test.each([
+    [1, 1000],
+    [5, 1400],
+    [10, 1900],
+    [15, 2400],
+    [20, 2900],
+    [25, 3400],
+  ])(
+    '1일부터 25일 사이의 기간이라면, 1000원으로 시작하여 날마다 100원씩 증가하는 할인 혜택을 제공한다.',
+    (date, value) => {
+      const discount = new Discount();
+      discount.applyChristmasDiscount(date);
+
+      expect(discount.getResult().christmas).toEqual(value);
+    }
+  );
+
+  test('1일부터 25일 사이의 기간이 아니라면, 할인 혜택을 제공하지 않는다.', () => {
+    const discount = new Discount();
+    discount.applyChristmasDiscount(31);
+
+    expect(discount.getResult().christmas).toEqual(0);
+  });
+});
