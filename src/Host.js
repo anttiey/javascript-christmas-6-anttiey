@@ -1,7 +1,6 @@
-import Date from './constants/Date.js';
 import Condition from './constants/Condition.js';
 
-const { EVENT_TOTAL_MIN, CHRISTMAS_EVENT, BADGE_NAME, BADGE_PRICE } = Condition;
+const { EVENT_TOTAL_MIN, BADGE_NAME, BADGE_PRICE } = Condition;
 
 class Host {
   handleEventDiscount(date, orders, total, discount) {
