@@ -76,8 +76,8 @@ class User {
     return total;
   }
 
-  calculateFinalOrderTotal(total, totalDiscount) {
-    return total - totalDiscount;
+  calculateFinalOrderTotal(totalDiscount) {
+    return this.calculateOrderTotal() - totalDiscount;
   }
 }
 

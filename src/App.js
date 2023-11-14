@@ -53,32 +53,24 @@ class App {
     await this.getOrder();
 
     OutputView.printMenu(this.#user.getOrders());
-
-    const total = this.#user.calculateOrderTotal();
-    OutputView.printOrderTotal(total);
+    OutputView.printOrderTotal(this.#user.calculateOrderTotal());
 
     this.#host.handleEventDiscount(
       this.#user.getDate(),
       this.#user.getOrders(),
-      total,
+      this.#user.calculateOrderTotal(),
       this.#discount
     );
 
-    const result = this.#discount.getResult();
-
-    OutputView.printFreeMenu(result);
-    OutputView.printAllDiscountDetails(result);
-
+    OutputView.printFreeMenu(this.#discount.getResult());
+    OutputView.printAllDiscountDetails(this.#discount.getResult());
     OutputView.printDiscountTotal(this.#discount.calculateDiscountTotal());
-
-    const totalOrder = this.#user.calculateFinalOrderTotal(
-      total - this.#discount.calculateRealDiscountTotal
+    OutputView.printFinalOrderTotal(
+      this.#user.calculateFinalOrderTotal(this.#discount.calculateRealDiscountTotal())
     );
-
-    OutputView.printFinalOrderTotal(totalOrder);
-
-    const badge = this.#host.handleEventBadge(this.#discount.calculateDiscountTotal());
-    OutputView.printEventBadge(badge);
+    OutputView.printEventBadge(
+      this.#host.handleEventBadge(this.#discount.calculateDiscountTotal())
+    );
   }
 }
 
