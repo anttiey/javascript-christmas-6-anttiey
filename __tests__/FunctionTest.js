@@ -59,12 +59,12 @@ describe('총 혜택 금액 계산 테스트', () => {
     (date, orders, value) => {
       const user = new User();
       const discount = new Discount();
-      const host = new Host();
+      const host = new Host(user, discount);
 
       user.setDate(date);
       user.setOrders(orders);
 
-      host.handleEventDiscount(date, orders, user.calculateOrderTotal(), discount);
+      host.handleEventDiscount();
 
       expect(discount.calculateDiscountTotal()).toEqual(value);
     }
@@ -89,32 +89,84 @@ describe('할인 후 예상 결제 금액 계산 테스트', () => {
     (date, orders, value) => {
       const user = new User();
       const discount = new Discount();
-      const host = new Host();
+      const host = new Host(user, discount);
 
       user.setDate(date);
       user.setOrders(orders);
 
-      host.handleEventDiscount(date, orders, user.calculateOrderTotal(), discount);
+      host.handleEventDiscount();
 
-      expect(user.calculateFinalOrderTotal(discount.calculateRealDiscountTotal())).toEqual(value);
+      expect(host.calculateFinalOrderTotal()).toEqual(value);
     }
   );
 });
 
 describe('이벤트 배지 부여 테스트', () => {
-  test('총 주문 금액이 2만 원 이상이면, 산타를 부여한다.', () => {
-    expect(new Host().handleEventBadge(20000)).toEqual('산타');
+  test('총 혜택 금액이 2만 원 이상이면, 산타를 부여한다.', () => {
+    const user = new User();
+    const discount = new Discount();
+    const host = new Host(user, discount);
+
+    user.setDate(1);
+    user.setOrders([
+      new Order(['양송이수프', 1]),
+      new Order(['티본스테이크', 2]),
+      new Order(['초코케이크', 1]),
+    ]);
+
+    host.handleEventDiscount();
+
+    expect(host.handleEventBadge()).toEqual('산타');
   });
 
-  test('총 주문 금액이 1만 원 이상 2만 원 미만이면, 트리를 부여한다.', () => {
-    expect(new Host().handleEventBadge(10000)).toEqual('트리');
+  test('총 혜택 금액이 1만 원 이상 2만 원 미만이면, 트리를 부여한다.', () => {
+    const user = new User();
+    const discount = new Discount();
+    const host = new Host(user, discount);
+
+    user.setDate(25);
+    user.setOrders([
+      new Order(['양송이수프', 1]),
+      new Order(['티본스테이크', 1]),
+      new Order(['초코케이크', 3]),
+    ]);
+
+    host.handleEventDiscount();
+
+    expect(host.handleEventBadge()).toEqual('트리');
   });
 
-  test('총 주문 금액이 5천 원 이상 1만 원 미만이면, 별을 부여한다.', () => {
-    expect(new Host().handleEventBadge(5000)).toEqual('별');
+  test('총 혜택 금액이 5천 원 이상 1만 원 미만이면, 별을 부여한다.', () => {
+    const user = new User();
+    const discount = new Discount();
+    const host = new Host(user, discount);
+
+    user.setDate(25);
+    user.setOrders([
+      new Order(['양송이수프', 1]),
+      new Order(['티본스테이크', 1]),
+      new Order(['초코케이크', 1]),
+    ]);
+
+    host.handleEventDiscount();
+
+    expect(host.handleEventBadge(5000)).toEqual('별');
   });
 
-  test('총 주문 금액이 5천 원 미만이면, 이벤트 배지를 부여하지 않는다.', () => {
-    expect(new Host().handleEventBadge(1000)).toEqual('없음');
+  test('총 혜택 금액이 5천 원 미만이면, 이벤트 배지를 부여하지 않는다.', () => {
+    const user = new User();
+    const discount = new Discount();
+    const host = new Host(user, discount);
+
+    user.setDate(26);
+    user.setOrders([
+      new Order(['양송이수프', 1]),
+      new Order(['티본스테이크', 1]),
+      new Order(['초코케이크', 1]),
+    ]);
+
+    host.handleEventDiscount();
+
+    expect(host.handleEventBadge(1000)).toEqual('없음');
   });
 });
