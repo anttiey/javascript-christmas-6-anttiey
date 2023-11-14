@@ -1,5 +1,8 @@
 import Validation from './utils/Validation.js';
 import Menu from './constants/Menu.js';
+import Condition from './constants/Condition.js';
+
+const { ORDER_DELIMITER, MENU_COUNT_DELIMITER } = Condition;
 
 class User {
   #date;
@@ -52,10 +55,6 @@ class User {
 
   calculateOrderTotal() {
     return this.#orders.reduce((total, order) => total + order.calculateOrderPrice(), 0);
-  }
-
-  calculateFinalOrderTotal(totalDiscount) {
-    return this.calculateOrderTotal() - totalDiscount;
   }
 }
 

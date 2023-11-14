@@ -3,19 +3,29 @@ import Condition from './constants/Condition.js';
 const { EVENT_TOTAL_MIN, BADGE_NAME, BADGE_PRICE } = Condition;
 
 class Host {
-  handleEventDiscount(date, orders, total, discount) {
-    if (total < EVENT_TOTAL_MIN) {
+  #user;
+  #discount;
+
+  constructor(user, discount) {
+    this.#user = user;
+    this.#discount = discount;
+  }
+
+  handleEventDiscount() {
+    if (this.#user.calculateOrderTotal() < EVENT_TOTAL_MIN) {
       return;
     }
 
-    discount.applyFreeMenu(total);
-    discount.applyChristmasDiscount(date);
-    discount.applyHolidayDiscount(date, orders);
-    discount.applyWeekdayDiscount(date, orders);
-    discount.applySpecialDiscount(date);
+    this.#discount.applyFreeMenu(this.#user.calculateOrderTotal());
+    this.#discount.applyChristmasDiscount(this.#user.getDate());
+    this.#discount.applyHolidayDiscount(this.#user.getDate(), this.#user.getOrders());
+    this.#discount.applyWeekdayDiscount(this.#user.getDate(), this.#user.getOrders());
+    this.#discount.applySpecialDiscount(this.#user.getDate());
   }
 
-  handleEventBadge(totalDiscount) {
+  handleEventBadge() {
+    const totalDiscount = this.#discount.calculateDiscountTotal();
+
     switch (true) {
       case totalDiscount >= BADGE_PRICE.santa:
         return BADGE_NAME.santa;
@@ -26,6 +36,10 @@ class Host {
       default:
         return BADGE_NAME.none;
     }
+  }
+
+  calculateFinalOrderTotal() {
+    return this.#user.calculateOrderTotal() - this.#discount.calculateRealDiscountTotal();
   }
 }
 

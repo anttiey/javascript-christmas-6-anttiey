@@ -11,14 +11,14 @@ import Condition from './constants/Condition.js';
 const { ORDER_DELIMITER, MENU_COUNT_DELIMITER } = Condition;
 
 class App {
-  #host;
   #user;
   #discount;
+  #host;
 
   constructor() {
-    this.#host = new Host();
     this.#user = new User();
     this.#discount = new Discount();
+    this.#host = new Host(this.#user, this.#discount);
   }
 
   async getDate() {
@@ -56,25 +56,13 @@ class App {
     await this.getDate();
     await this.getOrder();
 
-    OutputView.printMenu(this.#user.getOrders());
-    OutputView.printOrderTotal(this.#user.calculateOrderTotal());
+    OutputView.printOrderResult(this.#user);
+    this.#host.handleEventDiscount(this.#user, this.#discount);
 
-    this.#host.handleEventDiscount(
-      this.#user.getDate(),
-      this.#user.getOrders(),
-      this.#user.calculateOrderTotal(),
-      this.#discount
-    );
-
-    OutputView.printFreeMenu(this.#discount.getResult());
-    OutputView.printAllDiscountDetails(this.#discount.getResult());
+    OutputView.printEventResult(this.#discount.getResult());
     OutputView.printDiscountTotal(this.#discount.calculateDiscountTotal());
-    OutputView.printFinalOrderTotal(
-      this.#user.calculateFinalOrderTotal(this.#discount.calculateRealDiscountTotal())
-    );
-    OutputView.printEventBadge(
-      this.#host.handleEventBadge(this.#discount.calculateDiscountTotal())
-    );
+    OutputView.printFinalOrderTotal(this.#host.calculateFinalOrderTotal());
+    OutputView.printEventBadge(this.#host.handleEventBadge());
   }
 }
 
