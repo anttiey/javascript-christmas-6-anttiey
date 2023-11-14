@@ -1,5 +1,7 @@
 import User from '../src/User.js';
 import Order from '../src/Order.js';
+import Host from '../src/Host.js';
+import Discount from '../src/Discount.js';
 
 describe('할인 전 총 주문 금액 계산 테스트', () => {
   test.each([
@@ -27,4 +29,44 @@ describe('할인 전 총 주문 금액 계산 테스트', () => {
 
     expect(user.calculateOrderTotal()).toEqual(total);
   });
+});
+
+describe('총 혜택 금액 계산 테스트', () => {
+  test.each([
+    [7, [new Order(['양송이수프', 1])], 0],
+    [
+      7,
+      [new Order(['양송이수프', 1]), new Order(['티본스테이크', 1]), new Order(['초코케이크', 1])],
+      3623,
+    ],
+    [
+      8,
+      [new Order(['양송이수프', 1]), new Order(['티본스테이크', 1]), new Order(['초코케이크', 1])],
+      3723,
+    ],
+    [
+      10,
+      [new Order(['양송이수프', 1]), new Order(['티본스테이크', 1]), new Order(['초코케이크', 1])],
+      4923,
+    ],
+    [
+      10,
+      [new Order(['양송이수프', 1]), new Order(['티본스테이크', 2]), new Order(['초코케이크', 1])],
+      29923,
+    ],
+  ])(
+    '할인 금액의 합계와 증정 메뉴의 가격을 더해, 알맞은 총 혜택 금액을 반환한다.',
+    (date, orders, value) => {
+      const user = new User();
+      const discount = new Discount();
+      const host = new Host();
+
+      user.setDate(date);
+      user.setOrders(orders);
+
+      host.handleEventDiscount(date, orders, user.calculateOrderTotal(), discount);
+
+      expect(discount.calculateDiscountTotal()).toEqual(value);
+    }
+  );
 });
