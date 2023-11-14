@@ -22,8 +22,6 @@ class Discount {
     if (total >= FREE_MENU.min) {
       this.#free = FREE_MENU.count * FREE_MENU.price;
     }
-
-    this.#free = 0;
   }
 
   applyChristmasDiscount(date) {
