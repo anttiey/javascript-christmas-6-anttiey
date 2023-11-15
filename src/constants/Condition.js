@@ -1,7 +1,18 @@
-const ORDER_DELIMITER = ',';
-const MENU_COUNT_DELIMITER = '-';
+const ORDER = {
+  max: 20,
+  regex: /^[a-zA-Z가-힣]+-\d+$/,
+};
 
-const EVENT_TOTAL_MIN = 10000;
+const DELIMITERS = {
+  order: ',',
+  menu_count: '-',
+};
+
+const EVENT = {
+  start: 1,
+  end: 31,
+  min: 10000,
+};
 
 const FREE_MENU = {
   min: 120000,
@@ -36,9 +47,9 @@ const BADGE_PRICE = {
 };
 
 export default {
-  ORDER_DELIMITER,
-  MENU_COUNT_DELIMITER,
-  EVENT_TOTAL_MIN,
+  ORDER,
+  DELIMITERS,
+  EVENT,
   FREE_MENU,
   CHRISTMAS_EVENT,
   DISCOUNT_EVENT,

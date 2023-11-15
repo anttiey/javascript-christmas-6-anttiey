@@ -1,6 +1,8 @@
 import Menu from './constants/Menu.js';
 import Validation from './utils/Validation.js';
 
+const { ALL_MENU } = Menu;
+
 class Order {
   #menu;
   #count;
@@ -30,7 +32,7 @@ class Order {
   }
 
   calculateOrderPrice() {
-    const { price } = Menu.ALL_MENU.find((el) => el.name === this.#menu);
+    const { price } = ALL_MENU.find((el) => el.name === this.#menu);
     return price * this.#count;
   }
 }

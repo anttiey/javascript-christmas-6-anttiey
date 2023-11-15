@@ -3,6 +3,7 @@ import Menu from './constants/Menu.js';
 import Condition from './constants/Condition.js';
 
 const { FREE_MENU, CHRISTMAS_EVENT, DISCOUNT_EVENT } = Condition;
+const { DESSERT, MAIN } = Menu;
 
 class Discount {
   #free;
@@ -35,7 +36,7 @@ class Discount {
     if (!Date.HOLIDAY.includes(date)) {
       this.#weekday =
         orders
-          .filter((order) => Menu.DESSERT.some((dessert) => order.getMenu() === dessert.name))
+          .filter((order) => DESSERT.some((dessert) => order.getMenu() === dessert.name))
           .reduce((acc, order) => acc + order.getCount(), 0) * DISCOUNT_EVENT.weekday;
     }
   }
@@ -44,7 +45,7 @@ class Discount {
     if (Date.HOLIDAY.includes(date)) {
       this.#holiday =
         orders
-          .filter((order) => Menu.MAIN.some((main) => order.getMenu() === main.name))
+          .filter((order) => MAIN.some((main) => order.getMenu() === main.name))
           .reduce((acc, order) => acc + order.getCount(), 0) * DISCOUNT_EVENT.holiday;
     }
   }

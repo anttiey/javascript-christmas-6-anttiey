@@ -2,7 +2,7 @@ import Validation from './utils/Validation.js';
 import Order from './Order.js';
 import Condition from './constants/Condition.js';
 
-const { ORDER_DELIMITER, MENU_COUNT_DELIMITER } = Condition;
+const { DELIMITERS } = Condition;
 
 class User {
   #date;
@@ -41,12 +41,12 @@ class User {
 
   #parseOrder(order) {
     this.#validateOrder(order);
-    const [menu, count] = order.split(MENU_COUNT_DELIMITER);
+    const [menu, count] = order.split(DELIMITERS.menu_count);
     return new Order([menu, Number(count)]);
   }
 
   #parseOrders(orderStr) {
-    return orderStr.split(ORDER_DELIMITER).map((order) => this.#parseOrder(order));
+    return orderStr.split(DELIMITERS.order).map((order) => this.#parseOrder(order));
   }
 
   setDate(date) {

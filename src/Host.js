@@ -1,6 +1,6 @@
 import Condition from './constants/Condition.js';
 
-const { EVENT_TOTAL_MIN, BADGE_NAME, BADGE_PRICE } = Condition;
+const { EVENT, BADGE_NAME, BADGE_PRICE } = Condition;
 
 class Host {
   #user;
@@ -12,7 +12,7 @@ class Host {
   }
 
   handleEventDiscount() {
-    if (this.#user.calculateOrderTotal() < EVENT_TOTAL_MIN) {
+    if (this.#user.calculateOrderTotal() < EVENT.min) {
       return;
     }
 
