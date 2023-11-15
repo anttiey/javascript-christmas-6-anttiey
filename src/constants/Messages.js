@@ -15,7 +15,7 @@ const OUTPUT = {
   discount: '<혜택 내역>',
   discount_detail: (name, discount) => `${name}: -${discount.toLocaleString('ko-KR')}원`,
   discount_none: '없음',
-  discount_total: (totalDiscount) => `<총혜택 금액>\n${totalDiscount.toLocaleString('ko-KR')}원`,
+  discount_total: (totalDiscount) => `<총혜택 금액>\n-${totalDiscount.toLocaleString('ko-KR')}원`,
   final_order_total: (total) => `<할인 후 예상 결제 금액>\n${total.toLocaleString('ko-KR')}원`,
   badge: (badge) => `<12월 이벤트 배지>\n${badge}`,
 };

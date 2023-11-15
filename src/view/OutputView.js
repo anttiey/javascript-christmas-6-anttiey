@@ -24,6 +24,7 @@ const OutputView = {
   },
 
   printOrderResult(user) {
+    this.printNotice(user.getDate());
     this.printMenu(user.getOrders());
     this.printOrderTotal(user.calculateTotalOrderPrice());
   },
@@ -56,11 +57,6 @@ const OutputView = {
     this.printSingleDiscountDetails(EVENT.special, result.special);
   },
 
-  printEventResult(result) {
-    this.printFreeMenu(result.free);
-    this.printAllDiscountDetails(result);
-  },
-
   printDiscountTotal(totalDiscount) {
     Console.print(OUTPUT.discount_total(totalDiscount));
   },
@@ -71,6 +67,14 @@ const OutputView = {
 
   printEventBadge(badge) {
     Console.print(OUTPUT.badge(badge));
+  },
+
+  printEventResults(host, discount) {
+    this.printFreeMenu(discount.getDiscountResult().free);
+    this.printAllDiscountDetails(discount.getDiscountResult());
+    this.printDiscountTotal(discount.calculateDiscountTotal());
+    this.printFinalOrderTotal(host.calculateFinalOrderTotal());
+    this.printEventBadge(host.calculateEventBadge());
   },
 };
 

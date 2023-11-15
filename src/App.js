@@ -46,15 +46,11 @@ class App {
     await this.readUserDate();
     await this.readUserOrders();
 
-    OutputView.printNotice(this.#user.getDate());
-
     OutputView.printOrderResult(this.#user);
+
     this.#host.handleEventDiscounts(this.#user, this.#discount);
 
-    OutputView.printEventResult(this.#discount.getDiscountResult());
-    OutputView.printDiscountTotal(this.#discount.calculateDiscountTotal());
-    OutputView.printFinalOrderTotal(this.#host.calculateFinalOrderTotal());
-    OutputView.printEventBadge(this.#host.calculateEventBadge());
+    OutputView.printEventResults(this.#host, this.#discount);
   }
 }
 
