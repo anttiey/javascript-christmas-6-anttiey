@@ -20,7 +20,7 @@ class Discount {
     this.#special = 0;
   }
 
-  applyFreeMenu(total) {
+  applyFreeMenuDiscount(total) {
     if (total >= FREE_MENU.min) {
       this.#free = FREE_MENU.count * FREE_MENU.price;
     }
@@ -56,7 +56,7 @@ class Discount {
     }
   }
 
-  getResult() {
+  getDiscountResult() {
     return {
       free: this.#free,
       christmas: this.#christmas,
@@ -70,7 +70,7 @@ class Discount {
     return this.#free + this.#christmas + this.#weekday + this.#holiday + this.#special;
   }
 
-  calculateRealDiscountTotal() {
+  calculateDiscountTotalExceptFree() {
     return this.#christmas + this.#weekday + this.#holiday + this.#special;
   }
 }

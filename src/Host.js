@@ -11,19 +11,19 @@ class Host {
     this.#discount = discount;
   }
 
-  handleEventDiscount() {
-    if (this.#user.calculateOrderTotal() < EVENT.min) {
+  handleEventDiscounts() {
+    if (this.#user.calculateTotalOrderPrice() < EVENT.min) {
       return;
     }
 
-    this.#discount.applyFreeMenu(this.#user.calculateOrderTotal());
+    this.#discount.applyFreeMenuDiscount(this.#user.calculateTotalOrderPrice());
     this.#discount.applyChristmasDiscount(this.#user.getDate());
     this.#discount.applyHolidayDiscount(this.#user.getDate(), this.#user.getOrders());
     this.#discount.applyWeekdayDiscount(this.#user.getDate(), this.#user.getOrders());
     this.#discount.applySpecialDiscount(this.#user.getDate());
   }
 
-  handleEventBadge() {
+  calculateEventBadge() {
     const totalDiscount = this.#discount.calculateDiscountTotal();
 
     switch (true) {
@@ -39,7 +39,9 @@ class Host {
   }
 
   calculateFinalOrderTotal() {
-    return this.#user.calculateOrderTotal() - this.#discount.calculateRealDiscountTotal();
+    return (
+      this.#user.calculateTotalOrderPrice() - this.#discount.calculateDiscountTotalExceptFree()
+    );
   }
 }
 

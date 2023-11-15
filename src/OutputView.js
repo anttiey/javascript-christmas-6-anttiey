@@ -25,7 +25,7 @@ const OutputView = {
 
   printOrderResult(user) {
     this.printMenu(user.getOrders());
-    this.printOrderTotal(user.calculateOrderTotal());
+    this.printOrderTotal(user.calculateTotalOrderPrice());
   },
 
   printFreeMenu(free) {

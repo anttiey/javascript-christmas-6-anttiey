@@ -16,7 +16,7 @@ class App {
     this.#host = new Host(this.#user, this.#discount);
   }
 
-  async getDate() {
+  async readUserDate() {
     while (true) {
       try {
         const date = await InputView.readDate();
@@ -28,10 +28,10 @@ class App {
     }
   }
 
-  async getOrder() {
+  async readUserOrders() {
     while (true) {
       try {
-        const orderStr = await InputView.readOrder();
+        const orderStr = await InputView.readOrders();
         this.#user.setOrders(orderStr);
         break;
       } catch (err) {
@@ -43,18 +43,18 @@ class App {
   async run() {
     OutputView.printStart();
 
-    await this.getDate();
-    await this.getOrder();
+    await this.readUserDate();
+    await this.readUserOrders();
 
     OutputView.printNotice(this.#user.getDate());
 
     OutputView.printOrderResult(this.#user);
-    this.#host.handleEventDiscount(this.#user, this.#discount);
+    this.#host.handleEventDiscounts(this.#user, this.#discount);
 
-    OutputView.printEventResult(this.#discount.getResult());
+    OutputView.printEventResult(this.#discount.getDiscountResult());
     OutputView.printDiscountTotal(this.#discount.calculateDiscountTotal());
     OutputView.printFinalOrderTotal(this.#host.calculateFinalOrderTotal());
-    OutputView.printEventBadge(this.#host.handleEventBadge());
+    OutputView.printEventBadge(this.#host.calculateEventBadge());
   }
 }
 

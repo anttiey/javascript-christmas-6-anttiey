@@ -68,7 +68,7 @@ class User {
     return this.#orders;
   }
 
-  calculateOrderTotal() {
+  calculateTotalOrderPrice() {
     return this.#orders.reduce((total, order) => total + order.calculateOrderPrice(), 0);
   }
 }

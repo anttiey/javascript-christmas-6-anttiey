@@ -11,7 +11,7 @@ const InputView = {
     return input.trim();
   },
 
-  async readOrder() {
+  async readOrders() {
     const input = await this.read(INPUT.order);
 
     return input.trim();
