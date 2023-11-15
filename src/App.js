@@ -37,14 +37,7 @@ class App {
     while (true) {
       try {
         const orderStr = await InputView.readOrder();
-
-        const orders = orderStr.split(ORDER_DELIMITER).map((order) => {
-          Validation.validateOrderForm(order);
-          const [menu, count] = order.split(MENU_COUNT_DELIMITER);
-          return new Order([menu, Number(count)]);
-        });
-
-        this.#user.setOrders(orders);
+        this.#user.setOrders(orderStr);
         break;
       } catch (err) {
         Console.print(err.message);

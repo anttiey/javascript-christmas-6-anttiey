@@ -1,5 +1,6 @@
 import Validation from './utils/Validation.js';
 import Menu from './constants/Menu.js';
+import Order from './Order.js';
 import Condition from './constants/Condition.js';
 
 const { ORDER_DELIMITER, MENU_COUNT_DELIMITER } = Condition;
@@ -16,6 +17,10 @@ class User {
   #validateDate(date) {
     Validation.validateDateNumber(date);
     Validation.validateDateRange(date);
+  }
+
+  #validateOrder(order) {
+    Validation.validateOrderForm(order);
   }
 
   #validateMenus(menus) {
@@ -35,12 +40,23 @@ class User {
     this.#validateCounts(counts);
   }
 
+  #parseOrder(order) {
+    this.#validateOrder(order);
+    const [menu, count] = order.split(MENU_COUNT_DELIMITER);
+    return new Order([menu, Number(count)]);
+  }
+
+  #parseOrders(orderStr) {
+    return orderStr.split(ORDER_DELIMITER).map((order) => this.#parseOrder(order));
+  }
+
   setDate(date) {
     this.#validateDate(date);
     this.#date = date;
   }
 
-  setOrders(orders) {
+  setOrders(orderStr) {
+    const orders = this.#parseOrders(orderStr);
     this.#validateOrders(orders);
     this.#orders = orders;
   }
