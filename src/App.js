@@ -1,14 +1,9 @@
 import { Console } from '@woowacourse/mission-utils';
 import Host from './Host.js';
 import User from './User.js';
-import Order from './Order.js';
 import Discount from './Discount.js';
 import InputView from './InputView.js';
 import OutputView from './OutputView.js';
-import Validation from './utils/Validation.js';
-import Condition from './constants/Condition.js';
-
-const { ORDER_DELIMITER, MENU_COUNT_DELIMITER } = Condition;
 
 class App {
   #user;
