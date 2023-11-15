@@ -395,7 +395,7 @@ flowchart TD
 <td>11월 15일 (수)</td>
 <td>과제 제출</td>
 <td>1 Hours</td>
-<td style="text-align: center">🔴</td>
-<td>-</td>
+<td style="text-align: center">🟢</td>
+<td>3 Hours</td>
 </tr>
 </table>
