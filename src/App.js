@@ -2,8 +2,8 @@ import { Console } from '@woowacourse/mission-utils';
 import Host from './Host.js';
 import User from './User.js';
 import Discount from './Discount.js';
-import InputView from './InputView.js';
-import OutputView from './OutputView.js';
+import InputView from './view/InputView.js';
+import OutputView from './view/OutputView.js';
 
 class App {
   #user;

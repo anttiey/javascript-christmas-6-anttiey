@@ -1,5 +1,5 @@
 import { Console } from '@woowacourse/mission-utils';
-import Messages from './constants/Messages.js';
+import Messages from '../constants/Messages.js';
 
 const { OUTPUT, EVENT } = Messages;
 
