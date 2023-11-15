@@ -1,5 +1,4 @@
 import User from '../src/User.js';
-import Order from '../src/Order.js';
 import Host from '../src/Host.js';
 import Discount from '../src/Discount.js';
 
