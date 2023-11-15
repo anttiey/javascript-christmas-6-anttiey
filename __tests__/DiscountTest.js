@@ -6,9 +6,9 @@ describe('증정 메뉴 헤택 계산 테스트', () => {
     '총 주문 금액이 12만 원 이상이면, 증정 메뉴 혜택은 25000원이다.',
     (total) => {
       const discount = new Discount();
-      discount.applyFreeMenu(total);
+      discount.applyFreeMenuDiscount(total);
 
-      expect(discount.getResult().free).toEqual(25000);
+      expect(discount.getDiscountResult().free).toEqual(25000);
     }
   );
 
@@ -16,9 +16,9 @@ describe('증정 메뉴 헤택 계산 테스트', () => {
     '총 주문 금액이 12만 원 이하이면, 증정 메뉴 혜택은 0원이다.',
     (total) => {
       const discount = new Discount();
-      discount.applyFreeMenu(total);
+      discount.applyFreeMenuDiscount(total);
 
-      expect(discount.getResult().free).toEqual(0);
+      expect(discount.getDiscountResult().free).toEqual(0);
     }
   );
 });
@@ -37,7 +37,7 @@ describe('크리스마스 디데이 할인 헤택 계산 테스트', () => {
       const discount = new Discount();
       discount.applyChristmasDiscount(date);
 
-      expect(discount.getResult().christmas).toEqual(value);
+      expect(discount.getDiscountResult().christmas).toEqual(value);
     }
   );
 
@@ -45,7 +45,7 @@ describe('크리스마스 디데이 할인 헤택 계산 테스트', () => {
     const discount = new Discount();
     discount.applyChristmasDiscount(31);
 
-    expect(discount.getResult().christmas).toEqual(0);
+    expect(discount.getDiscountResult().christmas).toEqual(0);
   });
 });
 
@@ -58,7 +58,7 @@ describe('평일 할인 헤택 계산 테스트', () => {
     const discount = new Discount();
     discount.applyWeekdayDiscount(date, orders);
 
-    expect(discount.getResult().weekday).toEqual(value);
+    expect(discount.getDiscountResult().weekday).toEqual(value);
   });
 
   test('평일이 아니라면, 할인 혜택을 제공하지 않는다.', () => {
@@ -68,7 +68,7 @@ describe('평일 할인 헤택 계산 테스트', () => {
       new Order(['초코케이크', 1]),
     ]);
 
-    expect(discount.getResult().weekday).toEqual(0);
+    expect(discount.getDiscountResult().weekday).toEqual(0);
   });
 });
 
@@ -81,7 +81,7 @@ describe('주말 할인 헤택 계산 테스트', () => {
     const discount = new Discount();
     discount.applyHolidayDiscount(date, orders);
 
-    expect(discount.getResult().holiday).toEqual(value);
+    expect(discount.getDiscountResult().holiday).toEqual(value);
   });
 
   test('주말이 아니라면, 할인 혜택을 제공하지 않는다.', () => {
@@ -91,7 +91,7 @@ describe('주말 할인 헤택 계산 테스트', () => {
       new Order(['초코케이크', 1]),
     ]);
 
-    expect(discount.getResult().holiday).toEqual(0);
+    expect(discount.getDiscountResult().holiday).toEqual(0);
   });
 });
 
@@ -100,7 +100,7 @@ describe('특별 할인 헤택 계산 테스트', () => {
     const discount = new Discount();
     discount.applySpecialDiscount(date);
 
-    expect(discount.getResult().special).toEqual(1000);
+    expect(discount.getDiscountResult().special).toEqual(1000);
   });
 
   test.each([4, 5, 11, 12, 26])(
@@ -109,7 +109,7 @@ describe('특별 할인 헤택 계산 테스트', () => {
       const discount = new Discount();
       discount.applySpecialDiscount(date);
 
-      expect(discount.getResult().special).toEqual(0);
+      expect(discount.getDiscountResult().special).toEqual(0);
     }
   );
 });
