@@ -327,6 +327,32 @@ flowchart TD
 
 <br />
 
+# 📂 '크리스마스 프로모션' 파일 구조
+
+![program](./program.png)
+
+```
+📦 src
+┣ 📂 constants
+┃ ┣ 📜 Condition.js
+┃ ┣ 📜 Date.js
+┃ ┣ 📜 Menu.js
+┃ ┗ 📜 Messages.js
+┣ 📂 utils
+┃ ┗ 📜 Validation.js
+┣ 📂 view
+┃ ┣ 📜 InputView.js
+┃ ┗ 📜 OutputView.js
+┣ 📜 App.js
+┣ 📜 Discount.js
+┣ 📜 Host.js
+┣ 📜 Order.js
+┣ 📜 User.js
+┗ 📜 index.js
+```
+
+<br />
+
 # 📆 '크리스마스 프로모션' 구현 계획
 
 <table>
