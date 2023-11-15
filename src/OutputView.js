@@ -4,6 +4,14 @@ import Messages from './constants/Messages.js';
 const { OUTPUT, EVENT } = Messages;
 
 const OutputView = {
+  printStart() {
+    Console.print(OUTPUT.start);
+  },
+
+  printNotice(date) {
+    Console.print(OUTPUT.notice(date));
+  },
+
   printMenu(orders) {
     Console.print(OUTPUT.order);
     orders.forEach((order) =>

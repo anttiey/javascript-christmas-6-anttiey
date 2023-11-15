@@ -53,8 +53,12 @@ class App {
   }
 
   async run() {
+    OutputView.printStart();
+
     await this.getDate();
     await this.getOrder();
+
+    OutputView.printNotice(this.#user.getDate());
 
     OutputView.printOrderResult(this.#user);
     this.#host.handleEventDiscount(this.#user, this.#discount);

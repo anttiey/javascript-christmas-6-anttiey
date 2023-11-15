@@ -5,6 +5,8 @@ const INPUT = {
 };
 
 const OUTPUT = {
+  start: '안녕하세요! 우테코 식당 12월 이벤트 플래너입니다.',
+  notice: (date) => `12월 ${date}일에 우테코 식당에서 받을 이벤트 혜택 미리 보기!`,
   order: '<주문 메뉴>',
   order_detail: (menu, count) => `${menu} ${count}개`,
   order_total: (total) => `<할인 전 총주문 금액>\n${total.toLocaleString('ko-KR')}원`,
